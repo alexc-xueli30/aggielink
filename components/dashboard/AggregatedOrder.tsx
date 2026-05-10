@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Truck, FileText, ShieldCheck, Package, CheckCircle2, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Truck, FileText, ShieldCheck, Package, CheckCircle2, ChevronRight, X, Printer } from "lucide-react";
 import { aggregatedOrder, farmsById } from "@/lib/mockData";
 import { useState } from "react";
 import clsx from "clsx";
@@ -20,12 +20,13 @@ const categoryColors: Record<string, string> = {
 export default function AggregatedOrder() {
   const o = aggregatedOrder;
   const [expanded, setExpanded] = useState<string | null>(o.lines[0]?.crop ?? null);
+  const [poOpen, setPoOpen] = useState(false);
 
   return (
     <div>
       <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
-          <span className="text-xs uppercase tracking-[0.16em] text-forest-600">Section · 2 of 3</span>
+          <span className="text-xs uppercase tracking-[0.16em] text-forest-600">Institution Workspace</span>
           <h1 className="mt-1.5 font-display text-3xl md:text-4xl text-forest-900 leading-tight">
             Aggregated Order
           </h1>
@@ -34,11 +35,23 @@ export default function AggregatedOrder() {
             for a single dispatch.
           </p>
         </div>
-        <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-forest-50 border border-forest-100 text-forest-700 text-xs">
-          <CheckCircle2 className="size-3.5" />
-          {o.status}
-        </span>
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-forest-50 border border-forest-100 text-forest-700 text-xs">
+            <CheckCircle2 className="size-3.5" />
+            {o.status}
+          </span>
+          <button
+            onClick={() => setPoOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-forest-800 hover:bg-forest-700 text-cream-50 text-xs font-medium transition shadow-soft"
+          >
+            <FileText className="size-3.5" />
+            Generate Institutional PO
+          </button>
+        </div>
       </header>
+
+      {/* PO Generator Modal */}
+      <POGeneratorModal open={poOpen} onClose={() => setPoOpen(false)} order={o} />
 
       {/* Stat strip */}
       <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -229,5 +242,148 @@ function ContributorBar({
         );
       })}
     </div>
+  );
+}
+
+function POGeneratorModal({
+  open,
+  onClose,
+  order,
+}: {
+  open: boolean;
+  onClose: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  order: any;
+}) {
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-12 overflow-y-auto"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <motion.div
+            className="absolute inset-0 bg-forest-950/35 backdrop-blur-sm"
+            onClick={onClose}
+          />
+          <motion.div
+            className="relative z-10 w-full max-w-2xl"
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 12, scale: 0.97 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="bg-cream-50 rounded-3xl overflow-hidden border border-forest-100 shadow-lift">
+              {/* PO Header */}
+              <div className="bg-forest-900 text-cream-50 px-8 py-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="text-[10px] uppercase tracking-[0.18em] text-forest-200 mb-1">Purchase Order</div>
+                    <div className="font-display text-2xl leading-tight">AL-2026-0511</div>
+                    <div className="text-xs text-forest-200 mt-1">Generated {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</div>
+                  </div>
+                  <button onClick={onClose} className="text-forest-200 hover:text-cream-50 transition">
+                    <X className="size-5" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="px-8 py-6 space-y-6">
+                {/* Buyer / Delivery */}
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="bg-cream-100/60 border border-forest-100 rounded-xl p-4">
+                    <div className="text-[10px] uppercase tracking-[0.14em] text-ink-subtle mb-1.5">Buyer</div>
+                    <div className="font-medium text-forest-900 text-sm">{order.buyer}</div>
+                    <div className="text-xs text-ink-muted mt-0.5">UC Davis Dining Services</div>
+                  </div>
+                  <div className="bg-cream-100/60 border border-forest-100 rounded-xl p-4">
+                    <div className="text-[10px] uppercase tracking-[0.14em] text-ink-subtle mb-1.5">Delivery</div>
+                    <div className="font-medium text-forest-900 text-sm">{order.delivery}</div>
+                    <div className="text-xs text-ink-muted mt-0.5">Invoice: {order.invoiceId}</div>
+                  </div>
+                </div>
+
+                {/* Line items preview */}
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.14em] text-ink-subtle mb-3">
+                    Aggregated Line Items ({order.lineCount})
+                  </div>
+                  <div className="rounded-xl border border-forest-100 overflow-hidden">
+                    <div className="grid grid-cols-3 gap-4 px-4 py-2 bg-cream-100/60 border-b border-forest-100 text-[10px] uppercase tracking-[0.12em] text-ink-subtle">
+                      <div>Crop</div>
+                      <div className="text-right">Qty (lb)</div>
+                      <div className="text-right">Farms</div>
+                    </div>
+                    {order.lines.slice(0, 6).map((line: { crop: string; amountLb: number; contributors: unknown[] }) => (
+                      <div key={line.crop} className="grid grid-cols-3 gap-4 px-4 py-2.5 border-b border-forest-50 last:border-0 text-sm">
+                        <div className="text-forest-900 font-medium">{line.crop}</div>
+                        <div className="text-right text-ink">{line.amountLb} lb</div>
+                        <div className="text-right text-ink-muted">{line.contributors.length}</div>
+                      </div>
+                    ))}
+                    {order.lines.length > 6 && (
+                      <div className="px-4 py-2 text-xs text-ink-subtle">
+                        + {order.lines.length - 6} more line items
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Summary stats */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-cream-100/60 border border-forest-100 rounded-xl p-3 text-center">
+                    <div className="font-display text-2xl text-forest-900">{order.totalLb.toLocaleString()}</div>
+                    <div className="text-[10px] uppercase tracking-[0.12em] text-ink-subtle mt-1">Total lb</div>
+                  </div>
+                  <div className="bg-cream-100/60 border border-forest-100 rounded-xl p-3 text-center">
+                    <div className="font-display text-2xl text-forest-900">{order.contributingFarms}</div>
+                    <div className="text-[10px] uppercase tracking-[0.12em] text-ink-subtle mt-1">Farms</div>
+                  </div>
+                  <div className="bg-cream-100/60 border border-forest-100 rounded-xl p-3 text-center">
+                    <div className="font-display text-2xl text-forest-900">{order.lineCount}</div>
+                    <div className="text-[10px] uppercase tracking-[0.12em] text-ink-subtle mt-1">Line items</div>
+                  </div>
+                </div>
+
+                {/* Compliance */}
+                <div className="bg-forest-50 border border-forest-200 rounded-xl p-4">
+                  <div className="text-xs font-medium text-forest-800 mb-2.5">Compliance Packet</div>
+                  <div className="space-y-1.5">
+                    {["Food Safety Certifications", "Organic Certificates (11 farms)", "GAP Audit Reports", "Traceability to Farm", "Unified Insurance Certificate"].map((item) => (
+                      <div key={item} className="flex items-center gap-2 text-xs text-forest-800">
+                        <CheckCircle2 className="size-3.5 text-forest-600 shrink-0" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Footer note */}
+                <div className="text-xs text-ink-subtle leading-relaxed border-t border-forest-100 pt-4">
+                  Invoice will be generated upon delivery confirmation. Payment terms: Net 30.
+                  Farms are compensated proportionally within 14 business days of delivery.
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-2">
+                  <button className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 rounded-full bg-forest-800 hover:bg-forest-700 text-cream-50 text-sm font-medium transition shadow-soft">
+                    <Printer className="size-4" /> Download PO
+                  </button>
+                  <button
+                    onClick={onClose}
+                    className="px-5 py-2.5 rounded-full border border-forest-200 hover:bg-forest-50 text-forest-800 text-sm transition"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

@@ -1,95 +1,102 @@
 "use client";
 
-import Link from "next/link";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Truck, FileText, ShieldCheck, Sprout } from "lucide-react";
+import WorkspaceModal from "./WorkspaceModal";
 
 export default function Hero() {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
-    <section className="relative pt-36 pb-24 px-6 lg:px-10 overflow-hidden">
-      <div className="absolute -top-40 -right-40 -z-10 size-[560px] rounded-full bg-forest-100/50 blur-3xl" />
-      <div className="absolute top-40 -left-40 -z-10 size-[440px] rounded-full bg-wheat-400/15 blur-3xl" />
+    <>
+      <section className="relative pt-36 pb-24 px-6 lg:px-10 overflow-hidden">
+        <div className="absolute -top-40 -right-40 -z-10 size-[560px] rounded-full bg-forest-100/50 blur-3xl" />
+        <div className="absolute top-40 -left-40 -z-10 size-[440px] rounded-full bg-wheat-400/15 blur-3xl" />
 
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-        <div className="lg:col-span-7">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-50 border border-forest-100 text-forest-700 text-xs uppercase tracking-[0.14em] mb-7"
-          >
-            <span className="size-1.5 rounded-full bg-forest-500 animate-pulse" />
-            Climate-tech for institutional procurement
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            className="font-display font-medium text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight text-forest-900 text-balance"
-          >
-            Many small farms.
-            <span className="block italic text-forest-600 mt-1">One institutional supply.</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="mt-8 text-lg md:text-xl text-ink-muted max-w-xl leading-relaxed text-pretty"
-          >
-            Hospitals, schools, and universities want local food. Small farms can&rsquo;t fill those orders alone.
-            AggieLink aggregates dozens of growers into one weekly delivery — with one invoice and one food-safety packet.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.45 }}
-            className="mt-10 flex flex-wrap gap-3"
-          >
-            <Link
-              href="/dashboard"
-              className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-forest-800 hover:bg-forest-700 text-cream-50 transition shadow-lift"
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="lg:col-span-7">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-50 border border-forest-100 text-forest-700 text-xs uppercase tracking-[0.14em] mb-7"
             >
-              See the live demo
-              <ArrowRight className="size-4 group-hover:translate-x-1 transition" />
-            </Link>
-            <a
-              href="#how"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-forest-200 hover:bg-forest-50 text-forest-800 transition"
+              <span className="size-1.5 rounded-full bg-forest-500 animate-pulse" />
+              Climate-tech for institutional procurement
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="font-display font-medium text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight text-forest-900 text-balance"
             >
-              How it works
-            </a>
-          </motion.div>
+              Many small farms.
+              <span className="block italic text-forest-600 mt-1">One institutional supply.</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="mt-8 text-lg md:text-xl text-ink-muted max-w-xl leading-relaxed text-pretty"
+            >
+              Hospitals, schools, and universities want local food. Small farms can&rsquo;t fill those orders alone.
+              AggieLink aggregates dozens of growers into one weekly delivery — with one invoice and one food-safety packet.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.45 }}
+              className="mt-10 flex flex-wrap gap-3"
+            >
+              <button
+                onClick={() => setModalOpen(true)}
+                className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-forest-800 hover:bg-forest-700 text-cream-50 transition shadow-lift"
+              >
+                See the live demo
+                <ArrowRight className="size-4 group-hover:translate-x-1 transition" />
+              </button>
+              <a
+                href="#how"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-forest-200 hover:bg-forest-50 text-forest-800 transition"
+              >
+                How it works
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.65 }}
+              className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs uppercase tracking-[0.14em] text-ink-subtle"
+            >
+              <span className="flex items-center gap-2"><Truck className="size-3.5 text-forest-600" /> One delivery</span>
+              <span className="flex items-center gap-2"><FileText className="size-3.5 text-forest-600" /> One invoice</span>
+              <span className="flex items-center gap-2"><ShieldCheck className="size-3.5 text-forest-600" /> One safety packet</span>
+              <span className="flex items-center gap-2"><Sprout className="size-3.5 text-forest-600" /> One supply pool</span>
+            </motion.div>
+          </div>
 
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.65 }}
-            className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs uppercase tracking-[0.14em] text-ink-subtle"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:col-span-5"
           >
-            <span className="flex items-center gap-2"><Truck className="size-3.5 text-forest-600" /> One delivery</span>
-            <span className="flex items-center gap-2"><FileText className="size-3.5 text-forest-600" /> One invoice</span>
-            <span className="flex items-center gap-2"><ShieldCheck className="size-3.5 text-forest-600" /> One safety packet</span>
-            <span className="flex items-center gap-2"><Sprout className="size-3.5 text-forest-600" /> One supply pool</span>
+            <HeroVisual onDemoClick={() => setModalOpen(true)} />
           </motion.div>
         </div>
+      </section>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="lg:col-span-5"
-        >
-          <HeroVisual />
-        </motion.div>
-      </div>
-    </section>
+      <WorkspaceModal open={modalOpen} onClose={() => setModalOpen(false)} />
+    </>
   );
 }
 
-function HeroVisual() {
+function HeroVisual({ onDemoClick }: { onDemoClick: () => void }) {
   return (
     <div className="relative w-full max-w-md mx-auto aspect-[4/5]">
       {/* Connecting lines */}
@@ -136,6 +143,12 @@ function HeroVisual() {
           14 line items · 18 farms<br />
           1 invoice · 1 delivery
         </div>
+        <button
+          onClick={onDemoClick}
+          className="mt-3 w-full text-center text-[10px] uppercase tracking-[0.14em] text-forest-200 hover:text-cream-50 transition py-1 border border-forest-600/50 rounded-lg hover:border-forest-400/60"
+        >
+          Enter demo →
+        </button>
       </motion.div>
 
       {/* Surrounding farm chips */}

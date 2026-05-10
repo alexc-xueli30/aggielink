@@ -1,30 +1,29 @@
 "use client";
 
-import { Sprout, Combine, BarChart3, FileText, Truck, TrendingUp } from "lucide-react";
+import { Sprout, TrendingUp, CalendarDays, ShieldCheck, Handshake } from "lucide-react";
 import clsx from "clsx";
 
-export type Section = "network" | "order" | "impact" | "post-demand" | "delivery" | "forecast";
+export type FarmerSection = "listings" | "demand" | "season" | "certifications" | "matches";
 
-const items: { id: Section; label: string; icon: typeof Sprout; desc: string }[] = [
-  { id: "network",     label: "Farm Network",      icon: Sprout,      desc: "Growers in the pool"            },
-  { id: "order",       label: "Aggregated Order",  icon: Combine,     desc: "This week's combined supply"    },
-  { id: "impact",      label: "Impact Insights",   icon: BarChart3,   desc: "What the network has built"     },
-  { id: "post-demand", label: "Post Demand",        icon: FileText,    desc: "Request supply from farms"      },
-  { id: "delivery",    label: "Delivery",           icon: Truck,       desc: "Coordinate weekly delivery"     },
-  { id: "forecast",    label: "Forecast",           icon: TrendingUp,  desc: "Forward demand planning"        },
+const items: { id: FarmerSection; label: string; icon: typeof Sprout; desc: string }[] = [
+  { id: "listings",       label: "My Crops",       icon: Sprout,       desc: "Available volume & capacity"     },
+  { id: "demand",         label: "Demand Feed",    icon: TrendingUp,   desc: "What buyers are looking for"     },
+  { id: "season",         label: "My Season",      icon: CalendarDays, desc: "Availability & forward schedule" },
+  { id: "certifications", label: "Certifications", icon: ShieldCheck,  desc: "Your compliance credentials"     },
+  { id: "matches",        label: "Matches",        icon: Handshake,    desc: "Suggested institutional matches"  },
 ];
 
-export default function Sidebar({
+export default function FarmerSidebar({
   active,
   onChange,
 }: {
-  active: Section;
-  onChange: (s: Section) => void;
+  active: FarmerSection;
+  onChange: (s: FarmerSection) => void;
 }) {
   return (
     <nav className="p-4 lg:p-5 lg:pt-7">
       <div className="hidden lg:block px-3 pb-3 text-[10px] uppercase tracking-[0.16em] text-ink-subtle">
-        Institution Workspace
+        Farmer Workspace
       </div>
       <ul className="flex lg:flex-col gap-1.5 overflow-x-auto lg:overflow-visible">
         {items.map((it) => {
