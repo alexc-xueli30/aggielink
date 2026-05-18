@@ -39,12 +39,6 @@ export default function CTA() {
                   Open the demo dashboard
                   <ArrowRight className="size-4 group-hover:translate-x-1 transition" />
                 </button>
-                <a
-                  href="mailto:hello@aggielink.demo"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-cream-100/30 hover:bg-cream-50/10 text-cream-50 transition"
-                >
-                  Talk to the team
-                </a>
               </div>
             </div>
           </motion.div>
