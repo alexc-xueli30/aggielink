@@ -61,3 +61,11 @@ lib/
   mockData.ts         All farms, the weekly order, impact figures
 tailwind.config.ts    Custom palette + font tokens
 ```
+
+## Team
+
+- **Alex**
+- **Lucas**
+- **Joshua**
+
+*Project completed on 2025-07-23.*
