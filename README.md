@@ -61,3 +61,13 @@ lib/
   mockData.ts         All farms, the weekly order, impact figures
 tailwind.config.ts    Custom palette + font tokens
 ```
+
+## Contributors
+
+- **Alex** — Developer
+- **Lucas** — Developer
+- **Joshua** — Developer
+
+---
+
+*Last Updated: May 18, 2026*
