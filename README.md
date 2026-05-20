@@ -1,4 +1,4 @@
-# AggieLink Alex was here
+# AggieLink
 
 
 > One order. Many farms. Real impact.
@@ -67,6 +67,10 @@ tailwind.config.ts    Custom palette + font tokens
 - **Alex** — Developer
 - **Lucas** — Developer
 - **Joshua** — Developer
+
+## Notes
+
+- Alex was here
 
 ---
 
