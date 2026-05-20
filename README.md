@@ -68,12 +68,6 @@ tailwind.config.ts    Custom palette + font tokens
 - **Lucas** — Developer
 - **Joshua** — Developer
 
-## Notes
-
-- Alex was here
-- Alex was here 2nd time
-- Alex was here 3rd time
-
 ---
 
 *Last Updated: May 20, 2026*
