@@ -59,12 +59,6 @@ export default function Hero() {
                 See the live demo
                 <ArrowRight className="size-4 group-hover:translate-x-1 transition" />
               </button>
-              <a
-                href="#how"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-forest-200 hover:bg-forest-50 text-forest-800 transition"
-              >
-                How it works
-              </a>
             </motion.div>
 
             <motion.div
